@@ -3,7 +3,7 @@
 
 This project is a webapp where users can estimate the price of a house in a given location in Abuja or Lagos - both states in Nigeria. The main aim of the project was to improve my machine learning knowledge and knowledge of making web based applications with flask where models can be deployed.
 
-Teechnologies/libraries used inlude:
+Technologies/libraries used inlude:
 * python
 * javascript
 * flask
