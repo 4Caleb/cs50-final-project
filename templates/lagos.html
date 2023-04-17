@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <link rel = "stylesheet" href = "{{url_for('static', filename = 'css/style.css')}}">
+</head>
+
+<body>
+    <div class = "img_lagos"></div>
+    <h1 class = "top"> Select Location</h1>
+<form>
+    <div>
+        <select name = "location" id= "idlocation" class="js-example-responsive" style="width: 50%"></select>
+    </div>
+    <div>
+        <h2  >House Type</h2>
+        <select name = "house" id="idhouse" style = "width : 50%;">
+            <option value="Home_FLAT">Flat</option>
+            <option value ="Bungalow">Bungalow</option>
+            <option value ="Home_DUPLEX">Duplex</option>
+            <option value ="Home_TERRACE_DUPLEX">Terrace Duplex</option>
+            <option value = "Home_SEMI_DETACHED_DUPLEX">Semi Detached Duplex</option>
+            <option value = "Home_DETACHED_DUPLEX">Detached duplex</option>
+            <option value = "Home_MANSION">Mansion</option>
+        </select>
+    </div>
+    <div>
+        <h2>Bedrooms</h2>
+                <select name = "bed" id="idbed" style = "width: 50%;">
+                    <option value=1>1 Bedroom</option>
+                    <option value=2>2 Bedrooms</option>
+                    <option value=3>3 Bedrooms</option>
+                    <option value=4>4 Bedrooms</option>
+                    <option value=5>5 Bedrooms</option>
+                    <option value=6>6 Bedrooms</option>
+                    <option value=7>7 Bedrooms</option>
+                    <option value=8>8 Bedrooms</option>
+                    <option value=9>9 Bedrooms</option>
+
+                </select>
+    </div>
+    
+    <div>
+        <h2>Other Criteria</h2>
+        <input type="checkbox" name = "newly_built" id = "idnewly_built" value= 1> Newly Built
+        <input type="checkbox" name = "furnished" id = "idfurnished" value = 1> Furnished
+        <input type="checkbox" name = "serviced" id ="idserviced" value = 1> Serviced
+
+    </div>
+</form>
+    <button class = "submit" id = "estimate"> Estimate Price</button>
+    <h2 id = "result">  </h2>
+
+
+<script>
+    $.get("/loc_lagos",function(data, status){
+      console.log("lagos locations retrieved")
+      if (data){
+          var loc_lagos = data
+          $("#idlocation").select2({data:loc_lagos})
+      }
+  }
+  )
+  
+  
+
+  $(document).ready(function(){
+        $("#estimate").click(function(){
+        var location = document.getElementById("idlocation").value
+        var bed = document.getElementById("idbed").value
+        var house = document.getElementById("idhouse").value
+        let newbuilt 
+        let furnished 
+        let serviced 
+    
+    if(document.getElementById("idnewly_built").checked){
+         newbuilt = document.getElementById("idnewly_built").value
+    }
+    else {
+        newbuilt = 0
+    }
+
+    if(document.getElementById("idfurnished").checked){
+         furnished = document.getElementById("idfurnished").value
+    }
+    else{
+        furnished = 0
+    }
+    
+    if(document.getElementById("idserviced").checked){
+         serviced = document.getElementById("idserviced").value
+    }
+    else{
+        serviced = 0
+    }
+
+        $.ajax({
+            url: "/predict_lagos",
+            type: "POST",
+            datatype: "json",
+            data: {location:location, 
+                  bed:bed,
+                  house:house,
+                  newbuilt:newbuilt,
+                  furnished:furnished, 
+                  serviced:serviced    
+            },
+            success:function(response){
+                document.getElementById("result").innerHTML = "₦ " + response 
+            },
+            error: function(xhr, status, error) {
+				console.log(status)
+			}
+        })
+
+        })
+    })
+
+
+
+
+  </script>
+</body>
+</html>
