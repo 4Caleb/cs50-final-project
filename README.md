@@ -1,5 +1,7 @@
 # cs50-final-project
 ## cs50x final project. A webapp for estimating housing prices in Lagos and Abuja
+#### See demo in this link: https://youtu.be/p438dFnkH84
+
 
 This project is a webapp where users can estimate the price of a house in a given location in Abuja or Lagos - both states in Nigeria. The main aim of the project was to improve my machine learning knowledge and knowledge of making web based applications with flask where models can be deployed.
 
@@ -38,4 +40,3 @@ Util.py contains information on the names of various locations. These location n
 * Adding more states 
 * Improving the overall design of the webpage
 
-See demo in this link: https://youtu.be/p438dFnkH84
